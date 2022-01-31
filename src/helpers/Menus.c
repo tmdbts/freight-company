@@ -7,20 +7,37 @@
 #include "../Vehicles.h"
 #include "../constants/terminalColors.h"
 
+int readMenuOption(int max) {
+    int menuChoice;
+
+    printf("%sSelect an option from the menu: ", TERMINAL_COLOR_DEFAULT);
+    scanf("%i", &menuChoice);
+
+    if (menuChoice < 0 || menuChoice > max) {
+        printf("%sInvalid option. Select an option from 0 to %i.\n", TERMINAL_COLOR_RED, max);
+
+        menuChoice = readMenuOption(max);
+    }
+
+    return menuChoice;
+}
+
 void printMainMenu() {
     printf("%s", TERMINAL_COLOR_DEFAULT);
     printf("+--------------------------+ \n");
     printf("|         Main Menu        | \n");
     printf("+--------------------------+ \n");
-    printf("| 1 |             Vehicles | \n");
+    printf("| 1 |             Freights | \n");
     printf("+--------------------------+ \n");
-    printf("| 2 |              Clients | \n");
+    printf("| 2 |                Trips | \n");
     printf("+--------------------------+ \n");
-    printf("| 3 |             Vehicles | \n");
+    printf("| 3 |              Clients | \n");
     printf("+--------------------------+ \n");
-    printf("| 4 |                Trips | \n");
+    printf("| 4 |             Vehicles | \n");
     printf("+--------------------------+ \n");
-    printf("| 5 |     Save all changes | \n");
+    printf("| 5 |              Drivers | \n");
+    printf("+--------------------------+ \n");
+    printf("| 6 |     Save all changes | \n");
     printf("+--------------------------+ \n");
     printf("| 0 |                 Exit | \n");
     printf("+--------------------------+ \n");
@@ -31,11 +48,11 @@ void printVehiclesMenu() {
     printf("+----------------------------------+ \n");
     printf("|             Vehicles             | \n");
     printf("+----------------------------------+ \n");
-    printf("| 1 |               Create vehicle | \n");
+    printf("| 1 |              Create vehicles | \n");
     printf("+----------------------------------+ \n");
-    printf("| 2 |   Change vehicle information | \n");
+    printf("| 2 |  Change vehicles information | \n");
     printf("+----------------------------------+ \n");
-    printf("| 3 |               Delete vehicle | \n");
+    printf("| 3 |              Delete vehicles | \n");
     printf("+----------------------------------+ \n");
     printf("| 4 |                List vehicles | \n");
     printf("+----------------------------------+ \n");
@@ -44,31 +61,6 @@ void printVehiclesMenu() {
     printf("| 0 |                         Exit | \n");
     printf("+----------------------------------+ \n");
 };
-
-void printListOfVehicles() {
-    printf("%s", TERMINAL_COLOR_DEFAULT);
-    printf("+-----------------------------------------------------------------------------------------------------+ \n");
-    printf("|                                           List of Vehicles                                          | \n");
-    printf("+-----------------------------------------------------------------------------------------------------+ \n");
-    printf("| ID | Manufacturer |    Model    | License Plate |  Mileage  | Max Weight | Max Volume | Consumption | \n");
-
-    for (int i = 0; i < 100; ++i) {
-        VEHICLE selectedVehicle = getVehicles(i);
-
-        if (selectedVehicle.id == 0) return;
-
-        printf("| %2i | %12s | %11s | %13s | %9i |    %4i    |     %3i    |     %2.2f    | \n",
-               selectedVehicle.id,
-               selectedVehicle.manufacturer,
-               selectedVehicle.model,
-               selectedVehicle.licensePlate,
-               selectedVehicle.mileage,
-               selectedVehicle.maxCargoWeight,
-               selectedVehicle.maxCargoVolume,
-               selectedVehicle.consumption
-        );
-    }
-}
 
 void printClientsMenu() {
     printf("%s", TERMINAL_COLOR_DEFAULT);
@@ -126,3 +118,49 @@ void printTripsMenu() {
     printf("| 0 |                      Exit | \n");
     printf("+-------------------------------+ \n");
 }
+
+void VehiclesMenu() {
+    int menuChoice;
+
+    do {
+        printVehiclesMenu();
+
+        menuChoice = readMenuOption(5);
+
+        switch (menuChoice) {
+            case 1:
+                createVehicle();
+
+                break;
+
+            case 2:
+                updateVehicle();
+
+                break;
+
+            case 3:
+                deleteVehicle();
+
+                break;
+
+            case 4:
+                printVehicles();
+
+                break;
+
+            case 5:
+                writeVehiclesToFile();
+
+                break;
+
+            default:
+                break;
+        }
+    } while (menuChoice != 0);
+}
+
+void ClientsMenu();
+
+void FreightsMenu();
+
+void TripsMenu();
