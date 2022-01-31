@@ -9,29 +9,33 @@
 
 typedef struct vehicle {
     int id;
-    char manufacturer[25];
-    char model[25];
-    char licensePlate[12];
-    int mileage;
+    char manufacturer[26];
+    char model[26];
+    char licensePlate[9];
+    float mileage;
     int maxCargoWeight;
     int maxCargoVolume;
     float consumption;
 } VEHICLE;
 
-VEHICLE vheicles[100];
+VEHICLE vehicles[100];
+
+int numberOfVehicles;
+
+void writeVehiclesToFile();
 
 void bootstrapVehicles();
 
 void printVehicles();
 
-void createVehicles();
+void createVehicle();
 
-void readVehicles();
+int readVehicles();
 
 void updateVehicle();
 
 void deleteVehicle();
 
-VEHICLE getVehicles(int id);
+//VEHICLE getVehicles(int id);
 
 #endif //FREIGHT_COMPANY_VEHICLES_H
