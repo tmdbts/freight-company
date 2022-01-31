@@ -2,13 +2,24 @@
 // Created by James Whitever on 24/01/2022.
 //
 
+#include <stdio.h>
 #include "Trips.h"
 #include "Freight.h"
 
-typedef struct trip {
-    int id;
-    int vehicleId;
-    int driverId;
-    char date[10];
-    int freightId[20]; //Define a max constant.
-} TRIP;
+void createTrip() {
+    FILE *file;
+
+    file = fopen("../persistence/trips.txt", "w");
+
+    
+}
+
+void readTrip() {}
+
+void updateTrip() {}
+
+void deleteTrip() {}
+
+TRIP getTrip() {
+//    return
+}
