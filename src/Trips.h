@@ -5,24 +5,36 @@
 #ifndef FREIGHT_COMPANY_TRIPS_H
 #define FREIGHT_COMPANY_TRIPS_H
 
+static const int MAX_TRIPS = 100;
+
 typedef struct trip {
     int id;
     int vehicleId;
     int driverId;
-    char date[10];
-    int freightId[20];
+    char date[11];
+    int freightId;
 } TRIP;
 
-TRIP trips[100];
+TRIP trips[MAX_TRIPS];
+
+void writeTripsToFile();
+
+void readTripInputProperties(int index);
+
+static int getIndex(int id, int totalDrivers);
+
+static int getLastUsedIndex(int totalDrivers);
+
+static int getMaxId(int totalDrivers);
+
+void printTrips();
 
 void createTrip();
 
-void readTrips();
+int readTrips();
 
 void updateTrip();
 
 void deleteTrip();
-
-TRIP getTrip(int id);
 
 #endif //FREIGHT_COMPANY_TRIPS_H
