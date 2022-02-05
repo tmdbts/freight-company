@@ -4,7 +4,6 @@
 
 #include "Main.h"
 #include <stdio.h>
-#include "Vehicles.h"
 #include "./helpers/Menus.h"
 
 int main() {
@@ -25,12 +24,12 @@ int main() {
                 break;
 
             case 2:
-                printTripsMenu();
+                TripsMenu();
 
                 break;
 
             case 3:
-                printClientsMenu();
+                ClientsMenu();
 
                 break;
 
@@ -40,7 +39,7 @@ int main() {
                 break;
 
             case 5:
-                printClientsMenu();
+                DriversMenu();
 
                 break;
 
