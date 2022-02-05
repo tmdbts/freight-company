@@ -17,6 +17,8 @@ void printFreightsMenu();
 
 void printTripsMenu();
 
+void printDriversMenu();
+
 void VehiclesMenu();
 
 void ClientsMenu();
@@ -24,5 +26,7 @@ void ClientsMenu();
 void FreightsMenu();
 
 void TripsMenu();
+
+void DriversMenu();
 
 #endif //FREIGHT_COMPANY_MENUS_H

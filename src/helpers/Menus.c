@@ -6,6 +6,10 @@
 #include <stdio.h>
 #include "../Vehicles.h"
 #include "../constants/terminalColors.h"
+#include "terminal.h"
+#include "../Clients.h"
+#include "../Drivers.h"
+#include "../Trips.h"
 
 int readMenuOption(int max) {
     int menuChoice;
@@ -23,6 +27,8 @@ int readMenuOption(int max) {
 }
 
 void printMainMenu() {
+//    clear();
+
     printf("%s", TERMINAL_COLOR_DEFAULT);
     printf("+--------------------------+ \n");
     printf("|         Main Menu        | \n");
@@ -44,6 +50,8 @@ void printMainMenu() {
 }
 
 void printVehiclesMenu() {
+//    clear();
+
     printf("%s", TERMINAL_COLOR_DEFAULT);
     printf("+----------------------------------+ \n");
     printf("|             Vehicles             | \n");
@@ -63,6 +71,8 @@ void printVehiclesMenu() {
 };
 
 void printClientsMenu() {
+//    clear();
+
     printf("%s", TERMINAL_COLOR_DEFAULT);
     printf("+---------------------------------+ \n");
     printf("|             Clients             | \n");
@@ -82,6 +92,8 @@ void printClientsMenu() {
 }
 
 void printFreightsMenu() {
+    clear();
+
     printf("%s", TERMINAL_COLOR_DEFAULT);
     printf("+--------------------------------+ \n");
     printf("|            Freights            | \n");
@@ -101,22 +113,43 @@ void printFreightsMenu() {
 }
 
 void printTripsMenu() {
+//    clear();
+
     printf("%s", TERMINAL_COLOR_DEFAULT);
     printf("+-------------------------------+ \n");
     printf("|             Trips             | \n");
     printf("+-------------------------------+ \n");
-    printf("| 1 |             Create client | \n");
+    printf("| 1 |              Create trip | \n");
     printf("+-------------------------------+ \n");
-    printf("| 2 | Change client information | \n");
+    printf("| 2 |  Change trip information | \n");
     printf("+-------------------------------+ \n");
-    printf("| 3 |             Delete client | \n");
+    printf("| 3 |              Delete trip | \n");
     printf("+-------------------------------+ \n");
-    printf("| 4 |              List clients | \n");
+    printf("| 4 |                List trips | \n");
     printf("+-------------------------------+ \n");
-    printf("| 5 |              Save changes | \n");
+    printf("| 5 |                Save trips | \n");
     printf("+-------------------------------+ \n");
     printf("| 0 |                      Exit | \n");
     printf("+-------------------------------+ \n");
+}
+
+void printDriversMenu() {
+    printf("%s", TERMINAL_COLOR_DEFAULT);
+    printf("+---------------------------------+ \n");
+    printf("|             Drivers             | \n");
+    printf("+---------------------------------+ \n");
+    printf("| 1 |               Create driver | \n");
+    printf("+---------------------------------+ \n");
+    printf("| 2 |   Change driver information | \n");
+    printf("+---------------------------------+ \n");
+    printf("| 3 |               Delete driver | \n");
+    printf("+---------------------------------+ \n");
+    printf("| 4 |                List drivers | \n");
+    printf("+---------------------------------+ \n");
+    printf("| 5 |                Save changes | \n");
+    printf("+---------------------------------+ \n");
+    printf("| 0 |                        Exit | \n");
+    printf("+---------------------------------+ \n");
 }
 
 void VehiclesMenu() {
@@ -159,8 +192,124 @@ void VehiclesMenu() {
     } while (menuChoice != 0);
 }
 
-void ClientsMenu();
+void ClientsMenu() {
+    int menuChoice;
+
+    do {
+        printClientsMenu();
+
+        menuChoice = readMenuOption(5);
+
+        switch (menuChoice) {
+            case 1:
+                createClient();
+
+                break;
+
+            case 2:
+                updateClient();
+
+                break;
+
+            case 3:
+                deleteClient();
+
+                break;
+
+            case 4:
+                printClients();
+
+                break;
+
+            case 5:
+                writeClientsToFile();
+
+                break;
+
+            default:
+                break;
+        }
+    } while (menuChoice != 0);
+}
 
 void FreightsMenu();
 
-void TripsMenu();
+void TripsMenu() {
+    int menuChoice;
+
+    do {
+        printTripsMenu();
+
+        menuChoice = readMenuOption(5);
+
+        switch (menuChoice) {
+            case 1:
+                createTrip();
+
+                break;
+
+            case 2:
+                updateTrip();
+
+                break;
+
+            case 3:
+                deleteTrip();
+
+                break;
+
+            case 4:
+                printTrips();
+
+                break;
+
+            case 5:
+                writeTripsToFile();
+
+                break;
+
+            default:
+                break;
+        }
+    } while (menuChoice != 0);
+}
+
+void DriversMenu() {
+    int menuChoice;
+
+    do {
+        printDriversMenu();
+
+        menuChoice = readMenuOption(5);
+
+        switch (menuChoice) {
+            case 1:
+                createDriver();
+
+                break;
+
+            case 2:
+                updateDriver();
+
+                break;
+
+            case 3:
+                deleteDriver();
+
+                break;
+
+            case 4:
+                printDrivers();
+
+                break;
+
+            case 5:
+                writeDriversToFile();
+
+                break;
+
+            default:
+                break;
+        }
+    } while (menuChoice != 0);
+}
