@@ -5,16 +5,30 @@
 #ifndef FREIGHT_COMPANY_DRIVERS_H
 #define FREIGHT_COMPANY_DRIVERS_H
 
+static const int MAX_DRIVERS = 100;
+
 typedef struct driver {
     int id;
-    char name[46];
+    char name[26];
 } DRIVER;
 
-DRIVER drivers[100];
+DRIVER drivers[MAX_DRIVERS];
+
+void writeDriversToFile();
+
+void readDriverInputProperties(int index);
+
+static int getIndex(int id, int totalDrivers);
+
+static int getLastUsedIndex(int totalDrivers);
+
+static int getMaxId(int totalDrivers);
+
+void printDrivers();
 
 void createDriver();
 
-void readDrivers();
+int readDrivers();
 
 void updateDriver();
 
