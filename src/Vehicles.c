@@ -4,16 +4,18 @@
 
 #include "Vehicles.h"
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 #include "constants/terminalColors.h"
+#include <ctype.h>
+#include <limits.h>
+#include "helpers/terminal.h"
 
 void writeVehiclesToFile() {
     FILE *file;
 
     file = fopen("../persistence/vehicles.txt", "w");
 
-    for (int i = 0; i < 100; ++i) {
+    for (int i = 0; i < MAX_VEHICLES; ++i) {
         if (vehicles[i].id == 0) continue;
 
         fprintf(file, "%i %25s %25s %8s %f %i %i %f\n",
@@ -65,8 +67,78 @@ void bootstrapVehicles() {
     fclose(file);
 }
 
+void readVehicleInputProperties(int index) {
+    clear();
+    printf("%s", TERMINAL_COLOR_DEFAULT);
+
+    printf("Insert the manufacturer:\n");
+    scanf("%s", vehicles[index].manufacturer);
+
+    printf("Insert the model:\n");
+    scanf("%s", vehicles[index].model);
+
+    printf("Insert the license plate: (AA-00-BB)\n");
+    scanf("%s", vehicles[index].licensePlate);
+
+    printf("Insert the mileage: (kilometers)\n");
+    scanf("%f", &vehicles[index].mileage);
+
+    printf("Insert the max cargo weight: (kilograms)\n");
+    scanf("%i", &vehicles[index].maxCargoWeight);
+
+    printf("Insert the max cargo volume: (cubic meters)\n");
+    scanf("%i", &vehicles[index].maxCargoVolume);
+
+    printf("Insert the consumption: (liters per kilometers)\n");
+    scanf("%f", &vehicles[index].consumption);
+}
+
+int getIndex(int id, int totalClients) {
+    for (int i = 0; i < totalClients; ++i) {
+        if (vehicles[i].id == id) return i;
+    }
+
+    return -1;
+}
+
+int getLastUsedIndex(int totalVehicles) {
+    int lastIndex;
+
+    if (totalVehicles == 0) return -1;
+
+    for (int i = 0; i < totalVehicles; ++i) {
+        if (vehicles[i].id != 0) lastIndex = i;
+    }
+
+    return lastIndex;
+}
+
+int getMaxId(int totalClients) {
+    int maxId = INT_MIN;
+
+    if (totalClients == 0) return 0;
+
+    for (int i = 0; i < totalClients; ++i) {
+        if (vehicles[i].id > maxId && vehicles[i].id != 0) maxId = vehicles[i].id;
+    }
+
+    return maxId;
+}
+
+int getMinId(int totalVehicles) {
+    int minId = INT_MAX;
+
+    for (int i = 0; i < totalVehicles; ++i) {
+        if (vehicles[i].id < minId && vehicles[i].id != 0) minId = vehicles[i].id;
+    }
+
+    return minId;
+}
+
 void printVehicles() {
     numberOfVehicles = readVehicles();
+
+    clear();
 
     printf("%s", TERMINAL_COLOR_DEFAULT);
     printf("+-----------------------------------------------------------------------------------------------------+ \n");
@@ -74,10 +146,16 @@ void printVehicles() {
     printf("+-----------------------------------------------------------------------------------------------------+ \n");
     printf("| ID | Manufacturer |    Model    | License Plate |  Mileage  | Max Weight | Max Volume | Consumption | \n");
 
-    for (int i = 0; i < numberOfVehicles; ++i) {
-//        if (selectedVehicle.id == 0) return;
+    if (numberOfVehicles == 0) {
+        printf("|NONE|     NONE     |    NONE     |     NONE      |    NONE   |    NONE    |    NONE    |     NONE    | \n");
+        printf("+-----------------------------------------------------------------------------------------------------+ \n");
 
-        printf("| %2i | %12s | %11s |   %8s    | %6.1f  |    %4i    |    %5i   |    %3.2f    | \n",
+        return;
+    }
+
+
+    for (int i = 0; i < numberOfVehicles; ++i) {
+        printf("| %2i | %12s | %11s |   %8s    | %6.1f  |    %4i    |    %5i   |    %5.2f    | \n",
                vehicles[i].id,
                vehicles[i].manufacturer,
                vehicles[i].model,
@@ -88,46 +166,25 @@ void printVehicles() {
                vehicles[i].consumption
         );
     }
+
+    printf("+-----------------------------------------------------------------------------------------------------+ \n");
 }
 
 void createVehicle() {
-    int currentId = 0;
-    int currentIndex;
     int nextId;
     int nextIndex;
 
+    clear();
+
     numberOfVehicles = readVehicles();
 
-    for (int i = 0; i < numberOfVehicles; ++i) {
-        if (vehicles[i].id <= currentId) continue;
+    nextId = getMaxId(numberOfVehicles) + 1;
+    nextIndex = getLastUsedIndex(numberOfVehicles) + 1;
 
-        currentId = vehicles[0].id;
-        currentIndex = i;
-    }
+    vehicles[nextIndex].id = nextId;
 
-    nextId = ++currentId;
-    nextIndex = ++currentIndex;
-
-    printf("Insert the manufacturer:\n");
-    scanf("%s", vehicles[nextIndex].manufacturer);
-
-    printf("Insert the model:\n");
-    scanf("%s", vehicles[nextIndex].model);
-
-    printf("Insert the license plate: (AA-00-BB)\n");
-    scanf("%s", vehicles[nextIndex].licensePlate);
-
-    printf("Insert the mileage: (kilometers)\n");
-    scanf("%f", &vehicles[nextIndex].mileage);
-
-    printf("Insert the max cargo weight: (kilograms)\n");
-    scanf("%i", &vehicles[nextIndex].maxCargoWeight);
-
-    printf("Insert the max cargo volume: (cubic meters)\n");
-    scanf("%i", &vehicles[nextIndex].maxCargoVolume);
-
-    printf("Insert the consumption: (liters per kilometers)\n");
-    scanf("%f", &vehicles[nextIndex].consumption);
+    readVehicleInputProperties(nextIndex);
+    writeVehiclesToFile();
 }
 
 int readVehicles() {
@@ -137,9 +194,8 @@ int readVehicles() {
     file = fopen("../persistence/vehicles.txt", "r");
 
     if (file == NULL) {
-        printf("\n%sError opening file vehicles.txt. File does not exist.", TERMINAL_COLOR_RED);
+        printf("\n%sError opening file vehicles.txt. File does not exist. \n", TERMINAL_COLOR_RED);
 
-        fclose(file);
         return 0;
     }
 
@@ -162,6 +218,40 @@ int readVehicles() {
     return fileLine;
 }
 
-void updateVehicle() {}
+void updateVehicle() {
+    int index, id;
 
-void deleteVehicle() {}
+    clear();
+
+    printVehicles();
+
+    printf("%s", TERMINAL_COLOR_DEFAULT);
+    printf("Insert the id of the vehicle you want to change: ");
+    scanf("%i", &id);
+
+    numberOfVehicles = readVehicles();
+    index = getIndex(id, numberOfVehicles);
+
+    readVehicleInputProperties(index);
+
+    writeVehiclesToFile();
+}
+
+void deleteVehicle() {
+    int index, id;
+
+    clear();
+
+    printVehicles();
+
+    printf("%s", TERMINAL_COLOR_DEFAULT);
+    printf("Insert the id of the vehicle you want to delete.");
+    scanf("%i", &id);
+
+    numberOfVehicles = readVehicles();
+    index = getIndex(id, numberOfVehicles);
+
+    vehicles[index].id = 0;
+
+    writeVehiclesToFile();
+}
