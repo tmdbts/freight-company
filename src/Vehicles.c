@@ -77,9 +77,10 @@ void readVehicleInputProperties(int index) {
         printf("Insert the manufacturer:\n");
         scanf("%s", vehicles[index].manufacturer);
 
-        if (strlen(vehicles[index].manufacturer) <= 26) {
-            break;
-        }
+        if (strlen(vehicles[index].manufacturer) <= 26) break;
+
+        printf("%s", TERMINAL_COLOR_RED);
+        printf("The input given is too long. Insert a shorter input. \n");
     } while (canProceed == 0);
 
     do {
@@ -98,7 +99,7 @@ void readVehicleInputProperties(int index) {
         printf("%s\n", TERMINAL_COLOR_DEFAULT);
         printf("Insert the license plate: (AA-00-BB)\n");
         scanf("%s", vehicles[index].licensePlate);
-        
+
         if (strlen(vehicles[index].licensePlate) == 8
             && vehicles[index].licensePlate[2] == '-'
             && vehicles[index].licensePlate[5] == '-')
@@ -108,18 +109,51 @@ void readVehicleInputProperties(int index) {
         printf("Wrong format please use the specified format. \n");
     } while (canProceed == 0);
 
-    printf("%s\n", TERMINAL_COLOR_DEFAULT);
-    printf("Insert the mileage: (kilometers)\n");
-    scanf("%f", &vehicles[index].mileage);
+    do {
+        printf("%s\n", TERMINAL_COLOR_DEFAULT);
+        printf("Insert the mileage: (kilometers)\n");
+        scanf("%f", &vehicles[index].mileage);
 
-    printf("Insert the max cargo weight: (kilograms)\n");
-    scanf("%i", &vehicles[index].maxCargoWeight);
+        if (isnumber(vehicles[index].mileage)) break;
 
-    printf("Insert the max cargo volume: (cubic meters)\n");
-    scanf("%i", &vehicles[index].maxCargoVolume);
+        printf("%s", TERMINAL_COLOR_RED);
+        printf("The input given either is not a number or it is has more or less than 9 digits. \n");
+    } while (canProceed == 0);
 
-    printf("Insert the consumption: (liters per kilometers)\n");
-    scanf("%f", &vehicles[index].consumption);
+    do {
+        printf("%s\n", TERMINAL_COLOR_DEFAULT);
+        printf("Insert the max cargo weight: (kilograms)\n");
+        scanf("%i", &vehicles[index].maxCargoWeight);
+
+        if (isnumber(vehicles[index].maxCargoWeight)) break;
+
+        printf("%s", TERMINAL_COLOR_RED);
+        printf("The input given either is not a number. \n");
+    } while (canProceed == 0);
+
+    do {
+        printf("%s\n", TERMINAL_COLOR_DEFAULT);
+        printf("Insert the max cargo volume: (cubic meters)\n");
+        scanf("%i", &vehicles[index].maxCargoVolume);
+
+        if (isnumber(vehicles[index].maxCargoVolume)) break;
+
+        printf("%s", TERMINAL_COLOR_RED);
+        printf("The input given either is not a number. \n");
+    } while (canProceed == 0);
+
+
+    do {
+        printf("%s\n", TERMINAL_COLOR_DEFAULT);
+        printf("Insert the consumption: (liters per kilometers)\n");
+        scanf("%f", &vehicles[index].consumption);
+
+        if (isnumber(vehicles[index].consumption)) break;
+
+        printf("%s", TERMINAL_COLOR_RED);
+        printf("The input given either is not a number. \n");
+    } while (canProceed == 0);
+
 }
 
 int getIndex(int id, int totalClients) {
