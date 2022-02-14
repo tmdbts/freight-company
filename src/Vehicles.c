@@ -114,7 +114,7 @@ void readVehicleInputProperties(int index) {
         printf("Insert the mileage: (kilometers)\n");
         scanf("%f", &vehicles[index].mileage);
 
-        if (isnumber(vehicles[index].mileage)) break;
+        if (!isnumber(vehicles[index].mileage)) break;
 
         printf("%s", TERMINAL_COLOR_RED);
         printf("The input given either is not a number. \n");
@@ -125,7 +125,7 @@ void readVehicleInputProperties(int index) {
         printf("Insert the max cargo weight: (kilograms)\n");
         scanf("%i", &vehicles[index].maxCargoWeight);
 
-        if (isnumber(vehicles[index].maxCargoWeight)) break;
+        if (!isnumber(vehicles[index].maxCargoWeight)) break;
 
         printf("%s", TERMINAL_COLOR_RED);
         printf("The input given either is not a number. \n");
@@ -136,7 +136,7 @@ void readVehicleInputProperties(int index) {
         printf("Insert the max cargo volume: (cubic meters)\n");
         scanf("%i", &vehicles[index].maxCargoVolume);
 
-        if (isnumber(vehicles[index].maxCargoVolume)) break;
+        if (!isnumber(vehicles[index].maxCargoVolume)) break;
 
         printf("%s", TERMINAL_COLOR_RED);
         printf("The input given either is not a number. \n");
@@ -148,7 +148,7 @@ void readVehicleInputProperties(int index) {
         printf("Insert the consumption: (liters per kilometers)\n");
         scanf("%f", &vehicles[index].consumption);
 
-        if (isnumber(vehicles[index].consumption)) break;
+        if (!isnumber(vehicles[index].consumption)) break;
 
         printf("%s", TERMINAL_COLOR_RED);
         printf("The input given either is not a number. \n");
