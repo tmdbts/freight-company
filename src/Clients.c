@@ -40,7 +40,7 @@ void readClientInputProperties(int index) {
     getchar();
 
     do {
-        printf("%s", TERMINAL_COLOR_DEFAULT);
+        printf("\n%s", TERMINAL_COLOR_DEFAULT);
         printf("Insert the client's name: \n");
         gets(clients[index].name);
 
@@ -52,7 +52,8 @@ void readClientInputProperties(int index) {
 
     do {
         int inputLength = 0;
-        printf("%s", TERMINAL_COLOR_DEFAULT);
+
+        printf("\n%s", TERMINAL_COLOR_DEFAULT);
         printf("Insert the client's nif: \n");
         scanf("%i", &clients[index].nif);
 
@@ -67,7 +68,7 @@ void readClientInputProperties(int index) {
     do {
         getchar();
 
-        printf("%s", TERMINAL_COLOR_DEFAULT);
+        printf("\n%s", TERMINAL_COLOR_DEFAULT);
         printf("Insert the client's address: \n");
         gets(clients[index].address);
 
@@ -78,7 +79,7 @@ void readClientInputProperties(int index) {
     } while (canProceed == 0);
 
     do {
-        printf("%s", TERMINAL_COLOR_DEFAULT);
+        printf("\n%s", TERMINAL_COLOR_DEFAULT);
         printf("Insert the client's city: \n");
         gets(clients[index].city);
 
@@ -91,7 +92,7 @@ void readClientInputProperties(int index) {
     do {
         int inputLength = 0;
 
-        printf("%s", TERMINAL_COLOR_DEFAULT);
+        printf("\n%s", TERMINAL_COLOR_DEFAULT);
         printf("Insert the client's zip code: \n");
         scanf("%i", &clients[index].zipCode);
 
