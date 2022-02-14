@@ -53,7 +53,7 @@ void bootstrapVehicles() {
     vehicles[0].maxCargoVolume = 40000;
     vehicles[0].consumption = 9.3;
 
-    fprintf(file, "%i %25s %25s %8s %f %i %i %f\n",
+    fprintf(file, "%i %26s %26s %8s %f %i %i %f\n",
             vehicles[0].id,
             vehicles[0].manufacturer,
             vehicles[0].model,
@@ -68,18 +68,47 @@ void bootstrapVehicles() {
 }
 
 void readVehicleInputProperties(int index) {
+    int canProceed = 0;
+
     clear();
-    printf("%s", TERMINAL_COLOR_DEFAULT);
 
-    printf("Insert the manufacturer:\n");
-    scanf("%s", vehicles[index].manufacturer);
+    do {
+        printf("%s\n", TERMINAL_COLOR_DEFAULT);
+        printf("Insert the manufacturer:\n");
+        scanf("%s", vehicles[index].manufacturer);
 
-    printf("Insert the model:\n");
-    scanf("%s", vehicles[index].model);
+        if (strlen(vehicles[index].manufacturer) <= 26) {
+            break;
+        }
+    } while (canProceed == 0);
 
-    printf("Insert the license plate: (AA-00-BB)\n");
-    scanf("%s", vehicles[index].licensePlate);
+    do {
+        printf("%s\n", TERMINAL_COLOR_DEFAULT);
+        printf("Insert the model:\n");
+        scanf("%s", vehicles[index].model);
 
+        if (strlen(vehicles[index].model) <= 26) break;
+
+        printf("%s", TERMINAL_COLOR_RED);
+        printf("The input given is too long. Insert a shorter input. \n");
+    } while (canProceed == 0);
+
+
+    do {
+        printf("%s\n", TERMINAL_COLOR_DEFAULT);
+        printf("Insert the license plate: (AA-00-BB)\n");
+        scanf("%s", vehicles[index].licensePlate);
+        
+        if (strlen(vehicles[index].licensePlate) == 8
+            && vehicles[index].licensePlate[2] == '-'
+            && vehicles[index].licensePlate[5] == '-')
+            break;
+
+        printf("%s", TERMINAL_COLOR_RED);
+        printf("Wrong format please use the specified format. \n");
+    } while (canProceed == 0);
+
+    printf("%s\n", TERMINAL_COLOR_DEFAULT);
     printf("Insert the mileage: (kilometers)\n");
     scanf("%f", &vehicles[index].mileage);
 
@@ -125,37 +154,27 @@ int getMaxId(int totalClients) {
     return maxId;
 }
 
-int getMinId(int totalVehicles) {
-    int minId = INT_MAX;
-
-    for (int i = 0; i < totalVehicles; ++i) {
-        if (vehicles[i].id < minId && vehicles[i].id != 0) minId = vehicles[i].id;
-    }
-
-    return minId;
-}
-
 void printVehicles() {
     numberOfVehicles = readVehicles();
 
     clear();
 
     printf("%s", TERMINAL_COLOR_DEFAULT);
-    printf("+-----------------------------------------------------------------------------------------------------+ \n");
-    printf("|                                           List of Vehicles                                          | \n");
-    printf("+-----------------------------------------------------------------------------------------------------+ \n");
-    printf("| ID | Manufacturer |    Model    | License Plate |  Mileage  | Max Weight | Max Volume | Consumption | \n");
+    printf("+------------------------------------------------------------------------------------------------------------------------------------+ \n");
+    printf("|                                                          List of Vehicles                                                          | \n");
+    printf("+------------------------------------------------------------------------------------------------------------------------------------+ \n");
+    printf("| ID |        Manufacturer        |            Model           | License Plate |   Mileage   | Max Weight | Max Volume | Consumption | \n");
 
     if (numberOfVehicles == 0) {
-        printf("|NONE|     NONE     |    NONE     |     NONE      |    NONE   |    NONE    |    NONE    |     NONE    | \n");
-        printf("+-----------------------------------------------------------------------------------------------------+ \n");
+        printf("|NONE|            NONE            |            NONE            |     NONE      |     NONE    |    NONE    |    NONE    |     NONE    | \n");
+        printf("+------------------------------------------------------------------------------------------------------------------------------------+ \n");
 
         return;
     }
 
 
     for (int i = 0; i < numberOfVehicles; ++i) {
-        printf("| %2i | %12s | %11s |   %8s    | %6.1f  |    %4i    |    %5i   |    %5.2f    | \n",
+        printf("| %2i | %26s | %26s |   %8s    | %11.2f  |    %4i    |    %5i   |    %5.2f    | \n",
                vehicles[i].id,
                vehicles[i].manufacturer,
                vehicles[i].model,
@@ -167,7 +186,7 @@ void printVehicles() {
         );
     }
 
-    printf("+-----------------------------------------------------------------------------------------------------+ \n");
+    printf("+------------------------------------------------------------------------------------------------------------------------------------+ \n");
 }
 
 void createVehicle() {
@@ -200,7 +219,7 @@ int readVehicles() {
     }
 
     while (!feof(file)) {
-        fscanf(file, "%i %25s %25s %8s %f %i %i %f ",
+        fscanf(file, "%i %26s %26s %8s %f %i %i %f ",
                &vehicles[fileLine].id,
                vehicles[fileLine].manufacturer,
                vehicles[fileLine].model,

@@ -9,8 +9,8 @@ static const int MAX_VEHICLES = 100;
 
 typedef struct vehicle {
     int id;
-    char manufacturer[26];
-    char model[26];
+    char manufacturer[27];
+    char model[27];
     char licensePlate[9];
     float mileage;
     int maxCargoWeight;
@@ -33,8 +33,6 @@ static int getIndex(int id, int totalDrivers);
 static int getLastUsedIndex(int totalDrivers);
 
 static int getMaxId(int totalDrivers);
-
-static int getMinId(int totalVehicles);
 
 void printVehicles();
 
