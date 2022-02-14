@@ -8,6 +8,9 @@
 #include "helpers/terminal.h"
 #include "constants/terminalColors.h"
 #include <string.h>
+#include <ctype.h>
+#include <math.h>
+#include <stdlib.h>
 
 void writeClientsToFile() {
     FILE *file;
@@ -31,25 +34,74 @@ void writeClientsToFile() {
 }
 
 void readClientInputProperties(int index) {
+    int canProceed = 0;
+
     clear();
-    printf("%s", TERMINAL_COLOR_DEFAULT);
-
     getchar();
-    printf("Insert the client's name: \n");
-    gets(clients[index].name);
 
-    printf("Insert the client's nif: \n");
-    scanf("%i", &clients[index].nif);
+    do {
+        printf("%s", TERMINAL_COLOR_DEFAULT);
+        printf("Insert the client's name: \n");
+        gets(clients[index].name);
 
-    getchar();
-    printf("Insert the client's address: \n");
-    gets(clients[index].address);
+        if (strlen(clients[index].name) <= 26)break;
 
-    printf("Insert the client's city: \n");
-    gets(clients[index].city);
+        printf("%s", TERMINAL_COLOR_RED);
+        printf("The input given is bigger than 26 characters. \n");
+    } while (canProceed == 0);
 
-    printf("Insert the client's zip code: \n");
-    scanf("%i", &clients[index].zipCode);
+    do {
+        int inputLength = 0;
+        printf("%s", TERMINAL_COLOR_DEFAULT);
+        printf("Insert the client's nif: \n");
+        scanf("%i", &clients[index].nif);
+
+        inputLength = floor(log10(abs(clients[index].nif))) + 1;
+
+        if (!isnumber(clients[index].nif) && inputLength == 9 && clients[index].nif > 0) break;
+
+        printf("%s", TERMINAL_COLOR_RED);
+        printf("The input given is not a number or it has more or less than 9 digits. \n");
+    } while (canProceed == 0);
+
+    do {
+        getchar();
+
+        printf("%s", TERMINAL_COLOR_DEFAULT);
+        printf("Insert the client's address: \n");
+        gets(clients[index].address);
+
+        if (strlen(clients[index].address) <= 36) break;
+
+        printf("%s", TERMINAL_COLOR_RED);
+        printf("The input given is bigger than 36 characters. \n");
+    } while (canProceed == 0);
+
+    do {
+        printf("%s", TERMINAL_COLOR_DEFAULT);
+        printf("Insert the client's city: \n");
+        gets(clients[index].city);
+
+        if (strlen(clients[index].city) <= 26) break;
+
+        printf("%s", TERMINAL_COLOR_RED);
+        printf("The input given is bigger than 26 characters. \n");
+    } while (canProceed == 0);
+
+    do {
+        int inputLength = 0;
+
+        printf("%s", TERMINAL_COLOR_DEFAULT);
+        printf("Insert the client's zip code: \n");
+        scanf("%i", &clients[index].zipCode);
+
+        inputLength = floor(log10(abs(clients[index].zipCode))) + 1;
+
+        if (!isnumber(clients[index].zipCode) && inputLength == 4 && clients[index].zipCode > 0) break;
+
+        printf("%s", TERMINAL_COLOR_RED);
+        printf("The input given is not a number or it has more or less than 4 digits. \n");
+    } while (canProceed == 0);
 }
 
 int getIndex(int id, int totalClients) {
