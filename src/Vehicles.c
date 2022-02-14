@@ -117,7 +117,7 @@ void readVehicleInputProperties(int index) {
         if (isnumber(vehicles[index].mileage)) break;
 
         printf("%s", TERMINAL_COLOR_RED);
-        printf("The input given either is not a number or it is has more or less than 9 digits. \n");
+        printf("The input given either is not a number. \n");
     } while (canProceed == 0);
 
     do {
