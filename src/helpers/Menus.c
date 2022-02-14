@@ -10,6 +10,7 @@
 #include "../Clients.h"
 #include "../Drivers.h"
 #include "../Trips.h"
+#include "../Freight.h"
 
 int readMenuOption(int max) {
     int menuChoice;
@@ -92,7 +93,7 @@ void printClientsMenu() {
 }
 
 void printFreightsMenu() {
-    clear();
+//    clear();
 
     printf("%s", TERMINAL_COLOR_DEFAULT);
     printf("+--------------------------------+ \n");
@@ -232,7 +233,45 @@ void ClientsMenu() {
     } while (menuChoice != 0);
 }
 
-void FreightsMenu();
+void FreightsMenu() {
+    int menuChoice;
+
+    do {
+        printFreightsMenu();
+
+        menuChoice = readMenuOption(5);
+
+        switch (menuChoice) {
+            case 1:
+                createFreight();
+
+                break;
+
+            case 2:
+                updateFreight();
+
+                break;
+
+            case 3:
+                deleteFreight();
+
+                break;
+
+            case 4:
+                printFreights();
+
+                break;
+
+            case 5:
+                writeFreightsToFile();
+
+                break;
+
+            default:
+                break;
+        }
+    } while (menuChoice != 0);
+}
 
 void TripsMenu() {
     int menuChoice;

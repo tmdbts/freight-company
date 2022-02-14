@@ -5,35 +5,47 @@
 #ifndef FREIGHT_COMPANY_FREIGHT_H
 #define FREIGHT_COMPANY_FREIGHT_H
 
+static const int MAX_FREIGHTS = 100;
+
 typedef struct freight {
     int id;
     int clientId;
-    char designation[25];
-    char priority[36];
-    char preferablePickUpDate[10];
-    char pickUpDate[10];
-    char preferableDeliveryDate[10];
-    char deliveryDate[10];
-    char pickupAddress[46];
-    char pickupCity[46];
+    char designation[27];
+    char priority[11];
+    char preferablePickUpDate[11];
+    char pickUpDate[11];
+    char preferableDeliveryDate[11];
+    char deliveryDate[11];
+    char pickupAddress[37];
+    char pickupCity[27];
     int pickupZipCode;
-    char deliveryAddress[46];
-    char deliveryCity[46];
+    char deliveryAddress[37];
+    char deliveryCity[27];
     int deliveryZipCode;
     float weight;
     float volume;
 } FREIGHT;
 
-FREIGHT freights[100];
+FREIGHT freights[MAX_FREIGHTS];
+
+void writeFreightsToFile();
+
+void readFreightsInputProperties(int index);
+
+static int getIndex(int id, int totalFreights);
+
+static int getLastUsedIndex(int totalFreights);
+
+static int getMaxId(int totalFreights);
+
+void printFreights();
 
 void createFreight();
 
-void readFreights();
+int readFreights();
 
 void updateFreight();
 
 void deleteFreight();
-
-FREIGHT getFreight(int id);
 
 #endif //FREIGHT_COMPANY_FREIGHT_H

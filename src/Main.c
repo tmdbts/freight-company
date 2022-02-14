@@ -19,7 +19,7 @@ int main() {
 
         switch (menuChoice) {
             case 1:
-                printFreightsMenu();
+                FreightsMenu();
 
                 break;
 
@@ -53,9 +53,3 @@ int main() {
         }
     } while (menuChoice != 0);
 }
-
-
-//int main() {
-//    bootstrapVehicles();
-//    printVehicles();
-//}
