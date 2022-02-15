@@ -7,6 +7,7 @@
 #include "Clients.h"
 #include "helpers/terminal.h"
 #include "constants/terminalColors.h"
+#include "helpers/validators.h"
 #include <string.h>
 #include <ctype.h>
 #include <math.h>
@@ -96,7 +97,7 @@ void readClientInputProperties(int index) {
         printf("Insert the client's zip code: \n");
         scanf("%i", &clients[index].zipCode);
 
-        inputLength = floor(log10(abs(clients[index].zipCode))) + 1;
+        inputLength = getNumberOfDigits(clients[index].zipCode);
 
         if (!isnumber(clients[index].zipCode) && inputLength == 4 && clients[index].zipCode > 0) break;
 

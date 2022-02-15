@@ -5,9 +5,12 @@
 #include <stdio.h>
 #include <limits.h>
 #include <string.h>
+#include <ctype.h>
 #include "Freight.h"
 #include "helpers/terminal.h"
 #include "constants/terminalColors.h"
+#include "Clients.h"
+#include "helpers/validators.h"
 
 void writeFreightsToFile() {
     FILE *file;
@@ -41,55 +44,202 @@ void writeFreightsToFile() {
 }
 
 void readFreightsInputProperties(int index) {
+    int canProceed = 0;
+
     clear();
     printf("%s", TERMINAL_COLOR_DEFAULT);
 
+    int numberOfClients = readClients();
+
+    do {
+        int hasClient = 0;
+
+        getchar();
+        printf("\n%s", TERMINAL_COLOR_DEFAULT);
+        printf("Insert the freight's client ID: \n");
+        scanf("%i", &freights[index].clientId);
+
+        for (int i = 0; i < numberOfClients; ++i) {
+            if (clients[i].id == freights[index].clientId) hasClient = 1;
+        }
+
+        if (hasClient) break;
+
+        printf("%s", TERMINAL_COLOR_RED);
+        printf("There is no client with the specified id. \n");
+    } while (canProceed == 0);
+
+    do {
+        printf("\n%s", TERMINAL_COLOR_DEFAULT);
+        printf("Insert the freight's priority (low/medium/urgent): \n");
+        scanf("%s", freights[index].priority);
+
+        int length = strlen(freights[index].priority);
+
+        for (int i = 0; i < length; ++i) {
+            freights[index].priority[i] = tolower(freights[index].priority[i]);
+        }
+
+        if (!strcmp(freights[index].priority, "low") ||
+            !strcmp(freights[index].priority, "medium") ||
+            !strcmp(freights[index].priority, "urgent"))
+            break;
+
+        printf("%s", TERMINAL_COLOR_RED);
+        printf("The input given does not correspond to the available options. \n");
+    } while (canProceed == 0);
+
+    do {
+        printf("\n%s", TERMINAL_COLOR_DEFAULT);
+        printf("Insert the freight's preferable pick up date (DD/MM/YYYY or NULL): \n");
+        scanf("%s", freights[index].preferablePickUpDate);
+
+        if (dateValidator(freights[index].preferablePickUpDate)) break;
+
+        printf("%s", TERMINAL_COLOR_RED);
+        printf("The input given has a wrong format. \n");
+    } while (canProceed == 0);
+
+    do {
+        printf("\n%s", TERMINAL_COLOR_DEFAULT);
+        printf("Insert the freight's pick up date (DD/MM/YYYY or NULL): \n");
+        scanf("%s", freights[index].pickUpDate);
+
+//        TODO: Validation according to the creation date. It cannot be smaller
+        if (dateValidator(freights[index].pickUpDate)) break;
+
+        printf("%s", TERMINAL_COLOR_RED);
+        printf("The input given has a wrong format. \n");
+    } while (canProceed == 0);
+
+    do {
+        printf("\n%s", TERMINAL_COLOR_DEFAULT);
+        printf("Insert the freight's preferable delivery date (DD/MM/YYYY or NULL): \n");
+        scanf("%s", freights[index].preferableDeliveryDate);
+
+        if (dateValidator(freights[index].preferableDeliveryDate)) break;
+
+        printf("%s", TERMINAL_COLOR_RED);
+        printf("The input given has a wrong format. \n");
+    } while (canProceed == 0);
+
+    do {
+        printf("\n%s", TERMINAL_COLOR_DEFAULT);
+        printf("Insert the freight's delivery date (DD/MM/YYYY or NULL): \n");
+        scanf("%s", freights[index].deliveryDate);
+
+        if (dateValidator(freights[index].deliveryDate)) break;
+
+        printf("%s", TERMINAL_COLOR_RED);
+        printf("The input given has a wrong format. \n");
+    } while (canProceed == 0);
+
+    do {
+        printf("\n%s", TERMINAL_COLOR_DEFAULT);
+        printf("Insert the freight's pickup zip code (1234): \n");
+        scanf("%i", &freights[index].pickupZipCode);
+
+        if (!isnumber(freights[index].pickupZipCode) &&
+            getNumberOfDigits(freights[index].pickupZipCode) == 4 &&
+            freights[index].pickupZipCode > 0)
+            break;
+
+        printf("%s", TERMINAL_COLOR_RED);
+        printf("The input given is not a number or it has more or less than 4 digits. \n");
+    } while (canProceed == 0);
+
+    do {
+        printf("\n%s", TERMINAL_COLOR_DEFAULT);
+        printf("Insert the freight's delivery zip code (1234): \n");
+        scanf("%i", &freights[index].deliveryZipCode);
+
+        if (!isnumber(freights[index].deliveryZipCode) &&
+            getNumberOfDigits(freights[index].deliveryZipCode) == 4 &&
+            freights[index].deliveryZipCode > 0)
+            break;
+
+        printf("%s", TERMINAL_COLOR_RED);
+        printf("The input given is not a number or it has more or less than 4 digits. \n");
+    } while (canProceed == 0);
+
+    do {
+        printf("\n%s", TERMINAL_COLOR_DEFAULT);
+        printf("Insert the freight's weight: \n");
+        scanf("%f", &freights[index].weight);
+
+        if (!isnumber(freights[index].weight)) break;
+
+        printf("%s", TERMINAL_COLOR_RED);
+        printf("The input given is not a number. \n");
+    } while (canProceed == 0);
+
+    do {
+        printf("\n%s", TERMINAL_COLOR_DEFAULT);
+        printf("Insert the freight's volume: \n");
+        scanf("%f", &freights[index].volume);
+
+        if (!isnumber(freights[index].volume)) break;
+
+        printf("%s", TERMINAL_COLOR_RED);
+        printf("The input given is not a number. \n");
+    } while (canProceed == 0);
+
     getchar();
-    printf("Insert the freight's client ID: \n");
-    scanf("%i", &freights[index].clientId);
 
-    printf("Insert the freight's priority (low/medium/urgent): \n");
-    scanf("%s", freights[index].priority);
+    do {
+        printf("\n%s", TERMINAL_COLOR_DEFAULT);
+        printf("Insert the freight's designation: \n");
+        gets(freights[index].designation);
 
-    printf("Insert the freight's preferable pick up date (DD/MM/YYYY or NULL): \n");
-    scanf("%s", freights[index].preferablePickUpDate);
+        if (strlen(freights[index].designation) <= 26) break;
 
-    printf("Insert the freight's pick up date: \n");
-    scanf("%s", freights[index].pickUpDate);
+        printf("%s", TERMINAL_COLOR_RED);
+        printf("The input given is bigger than 26 characters. \n");
+    } while (canProceed == 0);
 
-    printf("Insert the freight's preferable delivery date: \n");
-    scanf("%s", freights[index].preferableDeliveryDate);
+    do {
+        printf("\n%s", TERMINAL_COLOR_DEFAULT);
+        printf("Insert the freight's pickup address: \n");
+        gets(freights[index].pickupAddress);
 
-    printf("Insert the freight's delivery date: \n");
-    scanf("%s", freights[index].deliveryDate);
+        if (strlen(freights[index].pickupAddress) <= 36) break;
 
-    printf("Insert the freight's pickup zip code: \n");
-    scanf("%i", &freights[index].pickupZipCode);
+        printf("%s", TERMINAL_COLOR_RED);
+        printf("The input given is bigger than 36 characters. \n");
+    } while (canProceed == 0);
 
-    printf("Insert the freight's delivery zip code: \n");
-    scanf("%i", &freights[index].deliveryZipCode);
+    do {
+        printf("\n%s", TERMINAL_COLOR_DEFAULT);
+        printf("Insert the freight's pickup city: \n");
+        gets(freights[index].pickupCity);
 
-    printf("Insert the freight's weight: \n");
-    scanf("%f", &freights[index].weight);
+        if (strlen(freights[index].pickupCity) <= 26) break;
 
-    printf("Insert the freight's volume: \n");
-    scanf("%f", &freights[index].volume);
+        printf("%s", TERMINAL_COLOR_RED);
+        printf("The input given is bigger than 26 characters. \n");
+    } while (canProceed == 0);
 
-    getchar();
-    printf("Insert the freight's designation: \n");
-    gets(freights[index].designation);
+    do {
+        printf("\n%s", TERMINAL_COLOR_DEFAULT);
+        printf("Insert the freight's delivery address: \n");
+        gets(freights[index].deliveryAddress);
 
-    printf("Insert the freight's pickup address: \n");
-    gets(freights[index].pickupAddress);
+        if (strlen(freights[index].deliveryAddress) <= 26) break;
 
-    printf("Insert the freight's pickup city: \n");
-    gets(freights[index].pickupCity);
+        printf("%s", TERMINAL_COLOR_RED);
+        printf("The input given is bigger than 26 characters. \n");
+    } while (canProceed == 0);
 
-    printf("Insert the freight's delivery address: \n");
-    gets(freights[index].deliveryAddress);
+    do {
+        printf("\n%s", TERMINAL_COLOR_DEFAULT);
+        printf("Insert the freight's delivery city: \n");
+        gets(freights[index].deliveryCity);
 
-    printf("Insert the freight's delivery city: \n");
-    gets(freights[index].deliveryCity);
+        if (strlen(freights[index].deliveryCity) <= 26) break;
+
+        printf("%s", TERMINAL_COLOR_RED);
+        printf("The input given is bigger than 26 characters. \n");
+    } while (canProceed == 0);
 }
 
 static int getIndex(int id, int totalFreights) {
@@ -177,7 +327,7 @@ void createFreight() {
     freights[nextIndex].id = nextId;
 
     readFreightsInputProperties(nextIndex);
-    writeFreightsToFile();
+//    writeFreightsToFile();
 }
 
 int readFreights() {

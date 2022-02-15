@@ -28,12 +28,21 @@ void writeDriversToFile() {
 }
 
 void readDriverInputProperties(int index) {
-//    clear();
+    int canProceed = 0;
+    
     printf("%s", TERMINAL_COLOR_DEFAULT);
 
     getchar();
-    printf("Insert the driver's name: \n");
-    gets(drivers[index].name);
+    do {
+        printf("%s", TERMINAL_COLOR_DEFAULT);
+        printf("Insert the driver's name: \n");
+        gets(drivers[index].name);
+
+        if (strlen(drivers[index].name) <= 26) break;
+
+        printf("%s", TERMINAL_COLOR_RED);
+        printf("The input given is bigger than 26 characters. \n");
+    } while (canProceed);
 }
 
 static int getIndex(int id, int totalDrivers) {
