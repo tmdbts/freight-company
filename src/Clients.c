@@ -155,6 +155,8 @@ void printClients() {
     }
 
     for (int i = 0; i < numberOfClients; ++i) {
+        if (clients[i].id == 0)continue;
+        
         printf("| %2i | %26s | %9i | %36s | %26s |   %4i   | \n",
                clients[i].id,
                clients[i].name,

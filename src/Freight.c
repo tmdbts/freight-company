@@ -291,7 +291,9 @@ void printFreights() {
     }
 
     for (int i = 0; i < numberOfClients; ++i) {
-        printf("| %2i |     %2i    | %26s | %10s |        %10s       |  %10s  |           %10s           |   %10s  | %36s | %26s |       %4i       | %36s | %26s |       %4i       | %f10.2 | %f10.2 | \n",
+        if (freights[i].id == 0) continue;
+
+        printf("| %2i |     %2i    | %26s | %10s |        %10s       |  %10s  |           %10s           |   %10s  | %36s | %26s |       %4i       | %36s | %26s |       %4i       | %10.2f | %10.2f | \n",
                freights[i].id,
                freights[i].clientId,
                freights[i].designation,
@@ -327,7 +329,7 @@ void createFreight() {
     freights[nextIndex].id = nextId;
 
     readFreightsInputProperties(nextIndex);
-//    writeFreightsToFile();
+    writeFreightsToFile();
 }
 
 int readFreights() {

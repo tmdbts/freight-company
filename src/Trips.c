@@ -95,6 +95,8 @@ void printTrips() {
     }
 
     for (int i = 0; i < numberOfTrips; ++i) {
+        if (trips[i].id == 0)continue;
+        
         printf("| %2i |     %2i     |     %2i     | %10s |     %2i     | \n",
                trips[i].id,
                trips[i].vehicleId,

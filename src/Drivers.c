@@ -29,7 +29,7 @@ void writeDriversToFile() {
 
 void readDriverInputProperties(int index) {
     int canProceed = 0;
-    
+
     printf("%s", TERMINAL_COLOR_DEFAULT);
 
     getchar();
@@ -94,6 +94,8 @@ void printDrivers() {
     }
 
     for (int i = 0; i < numberOfDrivers; ++i) {
+        if (drivers[i].id == 0) continue;
+
         printf("| %2i | %26s | \n",
                drivers[i].id,
                drivers[i].name
