@@ -4,7 +4,6 @@
 
 #include <string.h>
 #include <ctype.h>
-#include <printf.h>
 #include <math.h>
 #include <stdlib.h>
 #include "validators.h"
@@ -12,9 +11,9 @@
 int dateValidator(char date[]) {
     int length = strlen(date);
 
-    printf("DATE: %s; len: %i\n", date, length);
+    if (!strcmp(date, "NULL")) return 1;
 
-    if (length != 10 && (length != 4 || strcmp(date, "NULL"))) return 0;
+    if (length != 10) return 0;
 
     if (date[2] != '/' && date[5] != '/') return 0;
 
