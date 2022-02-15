@@ -189,7 +189,7 @@ int getMaxId(int totalClients) {
 }
 
 void printVehicles() {
-    numberOfVehicles = readVehicles();
+    int numberOfVehicles = readVehicles();
 
     clear();
 
@@ -229,7 +229,7 @@ void createVehicle() {
 
     clear();
 
-    numberOfVehicles = readVehicles();
+    int numberOfVehicles = readVehicles();
 
     nextId = getMaxId(numberOfVehicles) + 1;
     nextIndex = getLastUsedIndex(numberOfVehicles) + 1;
@@ -282,7 +282,7 @@ void updateVehicle() {
     printf("Insert the id of the vehicle you want to change: ");
     scanf("%i", &id);
 
-    numberOfVehicles = readVehicles();
+    int numberOfVehicles = readVehicles();
     index = getIndex(id, numberOfVehicles);
 
     readVehicleInputProperties(index);
@@ -301,7 +301,7 @@ void deleteVehicle() {
     printf("Insert the id of the vehicle you want to delete.");
     scanf("%i", &id);
 
-    numberOfVehicles = readVehicles();
+    int numberOfVehicles = readVehicles();
     index = getIndex(id, numberOfVehicles);
 
     vehicles[index].id = 0;
