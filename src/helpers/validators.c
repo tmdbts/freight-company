@@ -8,10 +8,10 @@
 #include <stdlib.h>
 #include "validators.h"
 
-int dateValidator(char date[]) {
+int dateValidator(char date[], int nullable) {
     int length = strlen(date);
 
-    if (!strcmp(date, "NULL")) return 1;
+    if (nullable && !strcmp(date, "NULL")) return 1;
 
     if (length != 10) return 0;
 

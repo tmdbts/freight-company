@@ -94,7 +94,7 @@ void readFreightsInputProperties(int index) {
         printf("Insert the freight's preferable pick up date (DD/MM/YYYY or NULL): \n");
         scanf("%s", freights[index].preferablePickUpDate);
 
-        if (dateValidator(freights[index].preferablePickUpDate)) break;
+        if (dateValidator(freights[index].preferablePickUpDate, 1)) break;
 
         printf("%s", TERMINAL_COLOR_RED);
         printf("The input given has a wrong format. \n");
@@ -106,7 +106,7 @@ void readFreightsInputProperties(int index) {
         scanf("%s", freights[index].pickUpDate);
 
 //        TODO: Validation according to the creation date. It cannot be smaller
-        if (dateValidator(freights[index].pickUpDate)) break;
+        if (dateValidator(freights[index].pickUpDate, 1)) break;
 
         printf("%s", TERMINAL_COLOR_RED);
         printf("The input given has a wrong format. \n");
@@ -117,7 +117,7 @@ void readFreightsInputProperties(int index) {
         printf("Insert the freight's preferable delivery date (DD/MM/YYYY or NULL): \n");
         scanf("%s", freights[index].preferableDeliveryDate);
 
-        if (dateValidator(freights[index].preferableDeliveryDate)) break;
+        if (dateValidator(freights[index].preferableDeliveryDate, 1)) break;
 
         printf("%s", TERMINAL_COLOR_RED);
         printf("The input given has a wrong format. \n");
@@ -128,7 +128,7 @@ void readFreightsInputProperties(int index) {
         printf("Insert the freight's delivery date (DD/MM/YYYY or NULL): \n");
         scanf("%s", freights[index].deliveryDate);
 
-        if (dateValidator(freights[index].deliveryDate)) break;
+        if (dateValidator(freights[index].deliveryDate, 1)) break;
 
         printf("%s", TERMINAL_COLOR_RED);
         printf("The input given has a wrong format. \n");

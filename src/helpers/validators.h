@@ -11,7 +11,7 @@
  * @param date the date given by the user
  * @return 0 for an invalid date or 1 for a valid date
  */
-int dateValidator(char date[]);
+int dateValidator(char date[], int nullable);
 
 /**
  * Gets the number of digits that a number has.
