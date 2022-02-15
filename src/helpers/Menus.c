@@ -6,7 +6,6 @@
 #include <stdio.h>
 #include "../Vehicles.h"
 #include "../constants/terminalColors.h"
-#include "terminal.h"
 #include "../Clients.h"
 #include "../Drivers.h"
 #include "../Trips.h"
@@ -99,13 +98,13 @@ void printFreightsMenu() {
     printf("+--------------------------------+ \n");
     printf("|            Freights            | \n");
     printf("+--------------------------------+ \n");
-    printf("| 1 |              Create client | \n");
+    printf("| 1 |             Create freight | \n");
     printf("+--------------------------------+ \n");
-    printf("| 2 |  Change client information | \n");
+    printf("| 2 | Change freight information | \n");
     printf("+--------------------------------+ \n");
-    printf("| 3 |              Delete client | \n");
+    printf("| 3 |             Delete freight | \n");
     printf("+--------------------------------+ \n");
-    printf("| 4 |               List clients | \n");
+    printf("| 4 |              List freights | \n");
     printf("+--------------------------------+ \n");
     printf("| 5 |               Save changes | \n");
     printf("+--------------------------------+ \n");
@@ -151,6 +150,14 @@ void printDriversMenu() {
     printf("+---------------------------------+ \n");
     printf("| 0 |                        Exit | \n");
     printf("+---------------------------------+ \n");
+}
+
+void writeAllFiles() {
+    writeFreightsToFile();
+    writeTripsToFile();
+    writeClientsToFile();
+    writeVehiclesToFile();
+    writeDriversToFile();
 }
 
 void VehiclesMenu() {
