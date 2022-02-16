@@ -52,7 +52,7 @@ void readFreightsInputProperties(int index) {
     int numberOfClients = readClients();
 
     do {
-        int hasClient = 0;
+        int existsClient = 0;
 
         getchar();
         printf("\n%s", TERMINAL_COLOR_DEFAULT);
@@ -60,10 +60,10 @@ void readFreightsInputProperties(int index) {
         scanf("%i", &freights[index].clientId);
 
         for (int i = 0; i < numberOfClients; ++i) {
-            if (clients[i].id == freights[index].clientId) hasClient = 1;
+            if (clients[i].id == freights[index].clientId) existsClient = 1;
         }
 
-        if (hasClient) break;
+        if (existsClient) break;
 
         printf("%s", TERMINAL_COLOR_RED);
         printf("There is no client with the specified id. \n");

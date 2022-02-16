@@ -7,6 +7,10 @@
 #include "Trips.h"
 #include "helpers/terminal.h"
 #include "constants/terminalColors.h"
+#include "Vehicles.h"
+#include "Drivers.h"
+#include "Freight.h"
+#include "helpers/validators.h"
 
 void writeTripsToFile() {
     FILE *file;
@@ -29,21 +33,77 @@ void writeTripsToFile() {
 }
 
 void readTripInputProperties(int index) {
+    int canProceed = 0;
+
+//    TODO: If the below properties are 0 return with "No available Freights."
+    int numberOfVehicles = readVehicles();
+    int numberOfDrivers = readDrivers();
+    int numberOfFreights = readFreights();
+
     clear();
-    printf("%s", TERMINAL_COLOR_DEFAULT);
+//    getchar();
 
-    getchar();
-    printf("Insert the vehicle's id: \n");
-    scanf("%i", &trips[index].vehicleId);
+    do {
+        int existsVehicle = 0;
 
-    printf("Insert the drive's id: \n");
-    scanf("%i", &trips[index].driverId);
+        printf("%s\n", TERMINAL_COLOR_DEFAULT);
+        printf("Insert the vehicle's id: \n");
+        scanf("%i", &trips[index].vehicleId);
 
-    printf("Insert the date (01/01/1998): \n");
-    scanf("%s", trips[index].date);
+        for (int i = 0; i < numberOfVehicles; ++i) {
+            if (trips[index].vehicleId == vehicles[i].id) existsVehicle = 1;
+        }
 
-    printf("Insert the freight's id: \n");
-    scanf("%i", &trips[index].freightId);
+        if (existsVehicle) break;
+
+        printf("%s", TERMINAL_COLOR_RED);
+        printf("There is no vehicle with the specified id. \n");
+    } while (canProceed == 0);
+
+    do {
+        int existsDiver = 0;
+
+        printf("%s\n", TERMINAL_COLOR_DEFAULT);
+        printf("Insert the drive's id: \n");
+        scanf("%i", &trips[index].driverId);
+
+        for (int i = 0; i < numberOfDrivers; ++i) {
+            if (trips[index].driverId == drivers[i].id) existsDiver = 1;
+        }
+
+        if (existsDiver) break;
+
+        printf("%s", TERMINAL_COLOR_RED);
+        printf("There is no driver with the specified id. \n");
+    } while (canProceed == 0);
+
+    do {
+        printf("%s\n", TERMINAL_COLOR_DEFAULT);
+        printf("Insert the date (DD/MM/YYYY): \n");
+        scanf("%s", trips[index].date);
+
+        if (dateValidator(trips[index].date, 0)) break;
+
+        printf("%s", TERMINAL_COLOR_RED);
+        printf("The input given has a wrong format. \n");
+    } while (canProceed == 0);
+
+    do {
+        int existsFreight = 0;
+
+        printf("%s", TERMINAL_COLOR_DEFAULT);
+        printf("Insert the freight's id: \n");
+        scanf("%i", &trips[index].freightId);
+
+        for (int i = 0; i < numberOfFreights; ++i) {
+            if (trips[index].freightId == freights[i].id) existsFreight = 1;
+        }
+
+        if (existsFreight) break;
+
+        printf("%s", TERMINAL_COLOR_RED);
+        printf("The input given has a wrong format. \n");
+    } while (canProceed == 0);
 }
 
 static int getIndex(int id, int totalTrips) {
@@ -95,8 +155,8 @@ void printTrips() {
     }
 
     for (int i = 0; i < numberOfTrips; ++i) {
-        if (trips[i].id == 0)continue;
-        
+        if (trips[i].id == 0) continue;
+
         printf("| %2i |     %2i     |     %2i     | %10s |     %2i     | \n",
                trips[i].id,
                trips[i].vehicleId,

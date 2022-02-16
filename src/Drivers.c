@@ -18,7 +18,7 @@ void writeDriversToFile() {
     for (int i = 0; i < MAX_DRIVERS; ++i) {
         if (drivers[i].id == 0) continue;
 
-        fprintf(file, "%i %26s\n",
+        fprintf(file, "%i %26s \n",
                 drivers[i].id,
                 drivers[i].name
         );

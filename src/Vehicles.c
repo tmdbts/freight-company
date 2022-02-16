@@ -208,8 +208,8 @@ void printVehicles() {
 
     for (int i = 0; i < numberOfVehicles; ++i) {
         if (vehicles[i].id == 0)continue;
-        
-        printf("| %2i | %26s | %26s |   %8s    | %11.2f  |    %4i    |    %5i   |    %5.2f    | \n",
+
+        printf("| %2i | %26s | %26s |   %8s    | %11.2f |    %4i    |    %5i   |    %5.2f    | \n",
                vehicles[i].id,
                vehicles[i].manufacturer,
                vehicles[i].model,
